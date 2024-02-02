@@ -1,0 +1,11 @@
+use SkiServiceManagement
+
+db.createCollection("Orders")
+
+db.createCollection("Employees")
+
+db.Orders.insertOne({CustomerName: "Kundenname",CustomerEmail: "kunde@example.com",CustomerPhone: "1234567890",Priority: "High",ServiceType: "Heisswachsen",CreateDate: ISODate("2023-12-21T08:00:00Z"),PickupDate: ISODate("2023-12-23T15:00:00Z"),Status: "Offen",Comment: "Kommentar"})
+
+db.Orders.createIndex({CustomerName: 1})
+
+db.Employees.createIndex({Username: 1})

@@ -1,10 +1,59 @@
 use SkiServiceManagement
 
-db.createCollection("Orders")
-
 db.createCollection("Employees")
 
-db.Orders.insertOne({CustomerName: "Kundenname",CustomerEmail: "kunde@example.com",CustomerPhone: "1234567890",Priority: "High",ServiceType: "Heisswachsen",CreateDate: ISODate("2023-12-21T08:00:00Z"),PickupDate: ISODate("2023-12-23T15:00:00Z"),Status: "Offen",Comment: "Kommentar"})
+db.createCollection("Orders", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["CustomerName", "CustomerEmail", "CustomerPhone", "Priority", "ServiceType", "CreateDate", "PickupDate", "Status", "Comment"],
+      properties: {
+        OrderID: {
+          bsonType: "objectId",
+          description: "muss eine gueltige ObjectId sein und ist erforderlich"
+        },
+        CustomerName: {
+          bsonType: "string",
+          description: "kann null sein, sollte ein String sein"
+        },
+        CustomerEmail: {
+          bsonType: "string",
+          description: "kann null sein, sollte ein String sein"
+        },
+        CustomerPhone: {
+          bsonType: "string",
+          description: "kann null sein, sollte ein String sein"
+        },
+        Priority: {
+          bsonType: "string",
+          description: "kann null sein, sollte ein String sein"
+        },
+        ServiceType: {
+          bsonType: "string",
+          description: "kann null sein, sollte ein String sein"
+        },
+        CreateDate: {
+          bsonType: "date",
+          description: "muss ein Datum sein und ist erforderlich"
+        },
+        PickupDate: {
+          bsonType: "date",
+          description: "muss ein Datum sein und ist erforderlich"
+        },
+        Status: {
+          bsonType: "string",
+          description: "muss ein String sein und ist standardmaessig 'Offen'"
+        },
+        Comment: {
+          bsonType: "string",
+          description: "muss ein String sein und ist standardmaessig leer"
+        }
+      }
+    }
+  },
+  validationLevel: "strict",
+  validationAction: "error"
+});
 
 db.Orders.createIndex({CustomerName: 1})
 
